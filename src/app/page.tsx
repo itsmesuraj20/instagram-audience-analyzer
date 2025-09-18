@@ -60,7 +60,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">🔗 Connect Your Instagram Account</h2>
-              
+
               <div className="mb-6 p-4 bg-blue-50 rounded-lg">
                 <h3 className="font-semibold text-blue-900 mb-2">📋 Setup Instructions</h3>
                 <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800">
@@ -75,7 +75,7 @@ export default function Home() {
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-900 mb-3">Environment Configuration</h3>
                 <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`INSTAGRAM_CLIENT_ID=your_app_id_here
+                  {`INSTAGRAM_CLIENT_ID=your_app_id_here
 INSTAGRAM_CLIENT_SECRET=your_app_secret_here
 INSTAGRAM_REDIRECT_URI=http://localhost:8000/auth/instagram/callback`}
                 </pre>
@@ -118,25 +118,23 @@ INSTAGRAM_REDIRECT_URI=http://localhost:8000/auth/instagram/callback`}
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
       <Header />
-      
+
       <main className="container mx-auto px-4 py-8">
         {/* Connection Status */}
         <div className="mb-6 flex items-center justify-between">
-          <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-            backendStatus === 'healthy' 
-              ? 'bg-green-100 text-green-800' 
+          <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${backendStatus === 'healthy'
+              ? 'bg-green-100 text-green-800'
               : backendStatus === 'checking'
-              ? 'bg-yellow-100 text-yellow-800'
-              : 'bg-red-100 text-red-800'
-          }`}>
-            <div className={`w-2 h-2 rounded-full mr-2 ${
-              backendStatus === 'healthy' ? 'bg-green-500' : 
-              backendStatus === 'checking' ? 'bg-yellow-500' : 'bg-red-500'
-            }`}></div>
-            Backend: {backendStatus === 'healthy' ? 'Connected' : 
-                     backendStatus === 'checking' ? 'Checking...' : 'Disconnected'}
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-red-100 text-red-800'
+            }`}>
+            <div className={`w-2 h-2 rounded-full mr-2 ${backendStatus === 'healthy' ? 'bg-green-500' :
+                backendStatus === 'checking' ? 'bg-yellow-500' : 'bg-red-500'
+              }`}></div>
+            Backend: {backendStatus === 'healthy' ? 'Connected' :
+              backendStatus === 'checking' ? 'Checking...' : 'Disconnected'}
           </div>
-          
+
           {instagramData?.connected && (
             <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
               <div className="w-2 h-2 rounded-full mr-2 bg-purple-500"></div>
@@ -180,7 +178,7 @@ INSTAGRAM_REDIRECT_URI=http://localhost:8000/auth/instagram/callback`}
         {/* Analytics Chart */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <AnalyticsChart />
-          
+
           {/* Audience Demographics */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Audience Demographics</h3>
