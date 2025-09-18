@@ -16,7 +16,16 @@ interface InstagramData {
     posts_this_month: number;
     recent_media: any[];
   };
+  demo_data?: {
+    total_followers: number;
+    engagement_rate: number;
+    avg_likes: number;
+    posts_this_month: number;
+    total_posts: number;
+  };
   error?: string;
+  oauth_url?: string;
+  instructions?: string;
 }
 
 export default function Home() {
@@ -61,25 +70,52 @@ export default function Home() {
             <div className="bg-white rounded-xl shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">🔗 Connect Your Instagram Account</h2>
 
+              {instagramData?.error && (
+                <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-yellow-800">{instagramData.error}</p>
+                </div>
+              )}
+
               <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-semibold text-blue-900 mb-2">📋 Setup Instructions</h3>
+                <h3 className="font-semibold text-blue-900 mb-2">📋 Quick Start</h3>
+                <p className="text-blue-800 mb-3">Your Instagram app is already configured! Just complete the OAuth flow:</p>
                 <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800">
-                  <li>Go to <a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener noreferrer" className="underline">Facebook Developers</a> and create a new app</li>
-                  <li>Add "Instagram Basic Display" product to your app</li>
-                  <li>Set redirect URI to: <code className="bg-blue-200 px-1 rounded">http://localhost:8000/auth/instagram/callback</code></li>
-                  <li>Copy your App ID and App Secret</li>
-                  <li>Update your backend/.env file with the credentials</li>
+                  <li>Click &quot;Connect Instagram&quot; below</li>
+                  <li>Log in to your Instagram account</li>
+                  <li>Authorize the app to access your data</li>
+                  <li>Copy the access token from the response</li>
+                  <li>Add it to your .env file as INSTAGRAM_ACCESS_TOKEN</li>
+                  <li>Refresh this page</li>
                 </ol>
               </div>
 
-              <div className="mb-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Environment Configuration</h3>
-                <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
-                  {`INSTAGRAM_CLIENT_ID=your_app_id_here
-INSTAGRAM_CLIENT_SECRET=your_app_secret_here
-INSTAGRAM_REDIRECT_URI=http://localhost:8000/auth/instagram/callback`}
-                </pre>
-              </div>
+              {instagramData?.demo_data && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <h3 className="font-semibold text-gray-700 mb-2">📊 Demo Data Preview</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                    <div>
+                      <div className="font-medium text-gray-600">Followers</div>
+                      <div className="text-lg font-bold text-purple-600">{formatNumber(instagramData.demo_data.total_followers)}</div>
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-600">Engagement</div>
+                      <div className="text-lg font-bold text-purple-600">{instagramData.demo_data.engagement_rate}%</div>
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-600">Avg Likes</div>
+                      <div className="text-lg font-bold text-purple-600">{instagramData.demo_data.avg_likes}</div>
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-600">This Month</div>
+                      <div className="text-lg font-bold text-purple-600">{instagramData.demo_data.posts_this_month}</div>
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-600">Total Posts</div>
+                      <div className="text-lg font-bold text-purple-600">{instagramData.demo_data.total_posts}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-4">
                 <button

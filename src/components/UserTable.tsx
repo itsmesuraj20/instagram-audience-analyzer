@@ -11,7 +11,11 @@ interface User {
     verified: boolean;
 }
 
-export default function UserTable() {
+interface UserTableProps {
+    instagramData?: any;
+}
+
+export default function UserTable({ instagramData }: UserTableProps) {
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
