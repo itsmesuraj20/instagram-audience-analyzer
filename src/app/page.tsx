@@ -159,13 +159,13 @@ export default function Home() {
         {/* Connection Status */}
         <div className="mb-6 flex items-center justify-between">
           <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${backendStatus === 'healthy'
-              ? 'bg-green-100 text-green-800'
-              : backendStatus === 'checking'
-                ? 'bg-yellow-100 text-yellow-800'
-                : 'bg-red-100 text-red-800'
+            ? 'bg-green-100 text-green-800'
+            : backendStatus === 'checking'
+              ? 'bg-yellow-100 text-yellow-800'
+              : 'bg-red-100 text-red-800'
             }`}>
             <div className={`w-2 h-2 rounded-full mr-2 ${backendStatus === 'healthy' ? 'bg-green-500' :
-                backendStatus === 'checking' ? 'bg-yellow-500' : 'bg-red-500'
+              backendStatus === 'checking' ? 'bg-yellow-500' : 'bg-red-500'
               }`}></div>
             Backend: {backendStatus === 'healthy' ? 'Connected' :
               backendStatus === 'checking' ? 'Checking...' : 'Disconnected'}
