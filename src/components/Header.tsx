@@ -14,13 +14,13 @@ export default function Header() {
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/connect'}
                             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                         >
                             Connect Instagram
                         </button>
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/'}
                             className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                         >
