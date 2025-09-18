@@ -1,96 +1,68 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { Bar, BarChart, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
-export default function AnalyticsChart() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+interface AnalyticsChartProps {
+  data?: {
+    labels: string[];
+    values: number[];
+  };
+}
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
+export default function AnalyticsChart({ data }: AnalyticsChartProps) {
+  // Default data if none provided
+  const defaultData = [65, 78, 66, 44, 88, 90, 45, 88, 73, 55, 66, 77];
+  const defaultLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+  // Transform data for recharts
+  const chartData = (data?.labels || defaultLabels).map((label, index) => ({
+    name: label,
+    value: (data?.values || defaultData)[index] || 0,
+  }));
 
-        // Simple chart drawing
-        const data = [65, 78, 66, 44, 88, 90, 45, 88, 73, 55, 66, 77];
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const chartConfig = {
+    value: {
+      label: "Engagement",
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig;
 
-        const width = canvas.width;
-        const height = canvas.height;
-        const padding = 40;
-        const chartWidth = width - padding * 2;
-        const chartHeight = height - padding * 2;
-
-        // Clear canvas
-        ctx.clearRect(0, 0, width, height);
-
-        // Draw grid
-        ctx.strokeStyle = '#f3f4f6';
-        ctx.lineWidth = 1;
-
-        // Horizontal grid lines
-        for (let i = 0; i <= 5; i++) {
-            const y = padding + (chartHeight / 5) * i;
-            ctx.beginPath();
-            ctx.moveTo(padding, y);
-            ctx.lineTo(width - padding, y);
-            ctx.stroke();
-        }
-
-        // Draw line chart
-        ctx.strokeStyle = '#8b5cf6';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-
-        const maxValue = Math.max(...data);
-        const stepX = chartWidth / (data.length - 1);
-
-        data.forEach((value, index) => {
-            const x = padding + stepX * index;
-            const y = padding + chartHeight - (value / maxValue) * chartHeight;
-
-            if (index === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
-        });
-
-        ctx.stroke();
-
-        // Draw data points
-        ctx.fillStyle = '#8b5cf6';
-        data.forEach((value, index) => {
-            const x = padding + stepX * index;
-            const y = padding + chartHeight - (value / maxValue) * chartHeight;
-
-            ctx.beginPath();
-            ctx.arc(x, y, 4, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        // Draw labels
-        ctx.fillStyle = '#6b7280';
-        ctx.font = '12px system-ui';
-        ctx.textAlign = 'center';
-
-        labels.forEach((label, index) => {
-            const x = padding + stepX * index;
-            ctx.fillText(label, x, height - 10);
-        });
-
-    }, []);
-
-    return (
-        <div className="bg-white rounded-xl shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Engagement Over Time</h3>
-            <canvas
-                ref={canvasRef}
-                width={400}
-                height={200}
-                className="w-full h-48"
-            />
-        </div>
-    );
+  return (
+    <div className="bg-white rounded-xl shadow-sm p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Engagement Over Time</h3>
+      <ChartContainer config={chartConfig} className="h-48">
+        <BarChart
+          data={chartData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fontSize: 12 }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis 
+            tick={{ fontSize: 12 }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <ChartTooltip
+            content={<ChartTooltipContent />}
+          />
+          <Bar 
+            dataKey="value" 
+            fill="var(--color-value)"
+            radius={[4, 4, 0, 0]}
+          />
+        </BarChart>
+      </ChartContainer>
+    </div>
+  );
 }
